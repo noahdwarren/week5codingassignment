@@ -16,8 +16,9 @@ class Character {
 }
 
 class Party {
-    constructor(name) {
+    constructor(name, guild) {
         this.name = name;
+        this.guild = guild;
         this.characters = [];
     }
 
@@ -30,7 +31,7 @@ class Party {
     }
 
     describe() {
-        return `${this.name} has ${this.character.length} Characters.`;
+        return `${this.name} has ${this.character.length} Characters, and is part of the ${guild} guild/s`;
     }
 }
 
@@ -62,7 +63,7 @@ class Menu {
             selection = this.showMainMenuOptions();
         }
 
-        alert('Goodbye!');
+        alert('See you next time.');
     }
 
     showMainMenuOptions() {
@@ -94,15 +95,18 @@ class Menu {
     }
 
     createParty() {
-        let name = prompt('Enter name for new party:');
-        this.parties.push(new Party(name));
+        let name = prompt('Enter name of the new party:');
+        let guild = prompt('Enter the name of the guild the new party is a part of:')
+        this.parties.push(new Party(name, guild));
     }
 
     viewParty() {
-        let index = prompt('Enter the index of the party you wish to view:');
+        let index = prompt('Enter the index of the party to be viewed:');
         if (index > -1 && index < this.parties.length) {
             this.selectedParty = this.parties[index];
-            let description = 'Party Name: ' + this.selectedParty.name + '\n';
+            let description = `
+            Party Name: ${this.selectedParty.name} 
+            Guild: ${this.selectedParty.guild} \n`;
             
             for (let i = 0; i < this.selectedParty.characters.length; i++) {
                 description += i + ') ' + this.selectedParty.characters[i].name + ' - ' + this.selectedParty.characters[i].job + ' - ' + this.selectedParty.characters[i].specialization + '\n';
@@ -120,9 +124,9 @@ class Menu {
     }
 
     deleteParty() {
-        let index = prompt('Enter the index of the party you wish to delete:');
-        if (index > -1 && index < this.selectedParty.characters.length) {
-            this.selectedTeam.players.splice(index, 1);
+        let index = prompt('Enter the index of the party to be deleted:');
+        if (index > -1 && index < this.selectedParty.length) {
+            this.selectedParty.splice(index, 1);
         }
     }
 
@@ -134,7 +138,7 @@ class Menu {
     }
 
     deleteCharacter() {
-        let index = prompt('Enter the index of the character you wish to delete:');
+        let index = prompt('Enter the index of the character to be deleted:');
         if (index > -1 && index < this.selectedTeam.characters.length) {
             this.selectedTeam.characters.splice(index, 1);
         }
